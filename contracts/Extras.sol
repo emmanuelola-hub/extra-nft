@@ -14,7 +14,6 @@ contract ExtrasNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     constructor() ERC721("Extras", "EXT") {}
 
-
     uint256 owners = 0;
 
     struct Extras {
@@ -47,12 +46,12 @@ contract ExtrasNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         extras[tokenId] = Extras(
             tokenId,
             payable(msg.sender),
-            payable(address(this)),
+            payable(msg.sender),
             price,
-            false
+            true
         );
 
-        _transfer(msg.sender, address(this), tokenId);
+        // _transfer(msg.sender, address(this), tokenId);
     }
 
     function buyExtras(uint256 tokenId) public payable {
@@ -62,7 +61,7 @@ contract ExtrasNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
             msg.value >= price,
             "Please submit the asking price in order to buy this extra"
         );
-        
+
         _transfer(address(this), msg.sender, tokenId);
 
         payable(seller).transfer(msg.value);
@@ -90,7 +89,6 @@ contract ExtrasNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     function getExtrasLength() public view returns (uint256) {
         return _tokenIdCounter.current();
     }
-
 
     // The following functions are overrides required by Solidity.
 
